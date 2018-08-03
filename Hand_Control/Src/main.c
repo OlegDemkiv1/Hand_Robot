@@ -121,8 +121,13 @@ int main(void)
   MX_USART1_UART_Init();
   MX_USART2_UART_Init();
   MX_USART3_UART_Init();
+	
 
   /* USER CODE BEGIN 2 */
+	
+	
+init_ADXL345();    		// Init  accselerometr
+
 	// Test OLED 
 	uint8_t res = SSD1306_Init();	
 	char str8[10]={10}; 						// Variable for status OLED  
@@ -174,112 +179,84 @@ int main(void)
 								}
 			 }
 			 
-					uint8_t receive_data=0;
-//			 HAL_UART_Receive(&huart1, &receive_data,1, 0xFF);		// Receive data from bluetooth
-//		   //receive_data='1';  // For strat bluetooth  comment  in  line
-//			 
-//			 
-//			 
-//			 if((char)receive_data=='1')													// Check	receive  data																	
-//			 {
-					 uint8_t STATE=1;
-				   init_oled();  //Draw lise and words
-					 HAL_Delay(3000);  //500
-			
-					 while(STATE)
+			 uint8_t receive_data=0;
+			 uint8_t STATE=1;
+			 init_oled();  //Draw lise and words
+
+			 while(STATE)
+			 {
+				 
+					 uint8_t size=0;
+
+				 
+					 // Print acceleration on OLED
+					 data_from_ADXL345(); 			// tesr read accel
+					 
+					 char buf1[8]={0};
+					 sprintf(buf1, "X:%.3f",X);
+					 SSD1306_GotoXY(3,18);
+					 SSD1306_Puts(buf1, &Font_7x10, 1);
+					 sprintf(buf1, "Y:%.3f",Y);
+					 SSD1306_GotoXY(3,30);
+					 SSD1306_Puts(buf1, &Font_7x10, 1);
+					 sprintf(buf1, "Z:%.3f",Z);
+					 SSD1306_GotoXY(3,40);
+					 SSD1306_Puts(buf1, &Font_7x10, 1);
+					 
+					 SSD1306_UpdateScreen();
+					 uint8_t transmit_test_data=0;
+					 
+					 // Transmit data in comport
+					 //uint8_t str_1[9]="OK _2\r\n";
+					 char buf2[40]={0};
+					 size=sizeof(buf2);
+					 sprintf(buf2, "X:%.3f Y:%.3f Z:%.3f \r\n",X ,Y, Z);
+					 HAL_UART_Transmit(&huart2, (uint8_t*) buf2, size, 0xFF);					// Transmit data in COMPORT
+					 //
+	 
+					 // Transmit data in bluetooth module
+					 HAL_UART_Transmit(&huart1, (uint8_t*) buf2, size, 0xFF);					// Transmit data in COMPORT
+					 //
+					 
+					 // Drow circle and send data in 407
+					 if(((X>=-0.2)&(X<=0.2))&(Y>=-0.2)&(Y<=0.2))			// Cheack  data from acceleration  mudule.
 					 {
-							 uint8_t size=0;
-							 uint8_t str[9]="OK!!\r\n";
-							 size=sizeof(str);
-							 HAL_UART_Transmit(&huart2, str, size, 2);					// Transmit data in COMPORT
-							 //HAL_Delay(100);
-							 HAL_UART_Receive(&huart1, &receive_data,1, 2);		  // Receive data from bluetooth
-						 
-							 // Print acceleration on OLED
-							 data_from_ADXL345(); 			// tesr read accel
-							 
-							 char buf1[8]={0};
-							 sprintf(buf1, "X:%.3f",X);
-							 SSD1306_GotoXY(3,18);
-							 SSD1306_Puts(buf1, &Font_7x10, 1);
-							 sprintf(buf1, "Y:%.3f",Y);
-							 SSD1306_GotoXY(3,30);
-							 SSD1306_Puts(buf1, &Font_7x10, 1);
-							 sprintf(buf1, "Z:%.3f",Z);
-							 SSD1306_GotoXY(3,40);
-							 SSD1306_Puts(buf1, &Font_7x10, 1);
-							 
-							 SSD1306_UpdateScreen();
-							 uint8_t transmit_test_data=0;
-								
-							 
-
-							// Send action in 407		
-							transmit_test_data=X;			
-							HAL_UART_Transmit(&huart1, &transmit_test_data,1, 2);		  // Receive data from bluetooth
-							 
-							HAL_Delay(100); 
-							
-							 
-							 // Drow circle and send data in 407
-							 if(((X>=-0.2)&(X<=0.2))&(Y>=-0.2)&(Y<=0.2))			// Cheack  data from acceleration  mudule.
-							 {
-								    STOP();						// STOP function drow circle on OLED
-										// Send action in 407		
-										transmit_test_data='0';			// '0' - stop command
-										HAL_UART_Transmit(&huart1, &transmit_test_data,1, 2);		  // Receive data from bluetooth
-							 }
-							 else if(X<-0.2)
-							 {
-									  FORWARD();				// FORVARD function drow circle on OLED
-										// Send action in 407		
-										transmit_test_data='1';			// '1' - stop command
-										HAL_UART_Transmit(&huart1, &transmit_test_data,1, 2);		  // Receive data from bluetooth
-							 }
-							 else if(X>0.2)
-							 {
-										BACK();  					// BACK function drow circle on OLED
-										// Send action in 407		
-										transmit_test_data='2';			// '2' - stop command
-										HAL_UART_Transmit(&huart1, &transmit_test_data,1, 2);		  // Receive data from bluetooth
-							 }	
-							 else if(Y<-0.2)
-							 {			
-								    LEFT();           // LEFT function drow circle on OLED
-										// Send action in 407		
-										transmit_test_data='3';			// '3' - stop command
-										HAL_UART_Transmit(&huart1, &transmit_test_data,1, 2);		  // Receive data from bluetooth
-							 }
-							 else if(Y>0.2)
-							 { 
-										RIGHT();	        // RIGHT function drow circle on OLED
-										// Send action in 407		
-										transmit_test_data='4';			// '4' - stop command
-										HAL_UART_Transmit(&huart1, &transmit_test_data,1, 2);		  // Receive data from bluetooth
-							 }
+								STOP();						// STOP function drow circle on OLED
+								// Send action in 407		
+								transmit_test_data='0';			// '0' - stop command
+								HAL_UART_Transmit(&huart1, &transmit_test_data,1, 2);		  // Receive data from bluetooth
+					 }
+					 else if(X<-0.2)
+					 {
+								FORWARD();				// FORVARD function drow circle on OLED
+								// Send action in 407		
+								transmit_test_data='1';			// '1' - stop command
+								HAL_UART_Transmit(&huart1, &transmit_test_data,1, 2);		  // Receive data from bluetooth
+					 }
+					 else if(X>0.2)
+					 {
+								BACK();  					// BACK function drow circle on OLED
+								// Send action in 407		
+								transmit_test_data='2';			// '2' - stop command
+								HAL_UART_Transmit(&huart1, &transmit_test_data,1, 2);		  // Receive data from bluetooth
+					 }	
+					 else if(Y<-0.2)
+					 {			
+								LEFT();           // LEFT function drow circle on OLED
+								// Send action in 407		
+								transmit_test_data='3';			// '3' - stop command
+								HAL_UART_Transmit(&huart1, &transmit_test_data,1, 2);		  // Receive data from bluetooth
+					 }
+					 else if(Y>0.2)
+					 { 
+								RIGHT();	        // RIGHT function drow circle on OLED
+								// Send action in 407		
+								transmit_test_data='4';			// '4' - stop command
+								HAL_UART_Transmit(&huart1, &transmit_test_data,1, 2);		  // Receive data from bluetooth
+					 }
 								
 
 
-//							 if(receive_data=='2')												// Check	receive  data
-//							 {
-//								    int x1=0, y1=0, x2=0,y2=0, r=0; 
-//										// Print text in COMPORT
-//										STATE=0;		
-//										uint8_t str[9]="OUT\r\n";
-//										size=sizeof(str);
-//										HAL_UART_Transmit(&huart2, str, size, 0xFF);
-//										// Print text in OLED
-//								    SSD1306_Fill(0);			//Erice  OLED
-//								    SSD1306_UpdateScreen();
-//										 x1=40,y1=40;
-//										SSD1306_GotoXY(x1,y1);
-//										SSD1306_Puts("EXIT", &Font_11x18, 1);
-//										SSD1306_UpdateScreen();
-//										HAL_Delay(1000);
-//										SSD1306_Fill(0); //clear oled
-//										SSD1306_UpdateScreen();
-//							 }
-//					 }
 			 }		
   }
   /* USER CODE END 3 */
@@ -337,6 +314,7 @@ void SystemClock_Config(void)
 /* USER CODE BEGIN 4 */
 void I2C_scaner(void)
 {
+	
 	/*Description function
 	This function search devise connected to I2C in this case -hi2c1.
 	After thet function print in console information about what to connect to I2C. 
@@ -461,16 +439,20 @@ void data_from_ADXL345(void)
 			int16_t X_value=(uint16_t)buffer_XYZ[0]<<8|buffer_XYZ[1];
 			int16_t Y_value=(uint16_t)buffer_XYZ[2]<<8|buffer_XYZ[3];
 			int16_t Z_value=(uint16_t)buffer_XYZ[4]<<8|buffer_XYZ[5];
+			//
 			
 			// Convert data in G/s
 			X=(float)X_value/8192.0;
 			Y=(float)Y_value/8192.0;
 			Z=(float)Z_value/8192.0;
+			//
 			
-			// Print data
-			sprintf(str1,"X:%.2f  Y:%.2f  Z:%.2f \r\n",X, Y, Z);                		  					// convert   in  str 
-			uint8_t size=sizeof(str1);
-			HAL_UART_Transmit(&huart2 , (uint8_t *)str1, size, 0xFF);     // send  new  line  in  com  port		
+//			// Print data
+//			sprintf(str1,"X:%.2f  Y:%.2f  Z:%.2f \r\n",X, Y, Z);                		  					// convert   in  str 
+//			uint8_t size=sizeof(str1);
+//			HAL_UART_Transmit(&huart2 , (uint8_t *)str1, size, 0xFF);     // send  new  line  in  com  port	
+			
+			//			
 }
 void init_oled(void)
 {				

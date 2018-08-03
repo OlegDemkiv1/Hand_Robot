@@ -21,13 +21,107 @@ Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.0.1.0
 Dialog DLL:      TCM.DLL V1.32.0.0
  
 <h2>Project:</h2>
-D:\My  Project\Hand_Robot\Hand_Control\MDK-ARM\ssd1306.uvprojx
+D:\My  Project\IN PROCESS\Hand_Robot\Hand_Control\MDK-ARM\ssd1306.uvprojx
 Project File Date:  04/02/2018
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 5 (build 528)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'ssd1306'
-"ssd1306\ssd1306.axf" - 0 Error(s), 0 Warning(s).
+compiling main.c...
+../Inc/ssd1306.h(238): warning:  #1295-D: Deprecated declaration ssd1306_I2C_Init - give arg types
+  void ssd1306_I2C_Init();
+../Src/main.c(147): warning:  #188-D: enumerated type mixed with another type
+  	SSD1306_Fill(0);			//Erice  OLED
+../Src/main.c(166): warning:  #188-D: enumerated type mixed with another type
+  			 SSD1306_Puts(buf2, &Font_7x10, 1);
+../Src/main.c(173): warning:  #188-D: enumerated type mixed with another type
+  					      SSD1306_DrawLine(0, y2, x2, y2, 1);
+../Src/main.c(177): warning:  #188-D: enumerated type mixed with another type
+  										SSD1306_DrawLine(0, y2, x2, y2, 0);
+../Src/main.c(198): warning:  #188-D: enumerated type mixed with another type
+  					 SSD1306_Puts(buf1, &Font_7x10, 1);
+../Src/main.c(201): warning:  #188-D: enumerated type mixed with another type
+  					 SSD1306_Puts(buf1, &Font_7x10, 1);
+../Src/main.c(204): warning:  #188-D: enumerated type mixed with another type
+  					 SSD1306_Puts(buf1, &Font_7x10, 1);
+../Src/main.c(182): warning:  #177-D: variable "receive_data"  was declared but never referenced
+  			 uint8_t receive_data=0;
+../Src/main.c(146): warning:  #177-D: variable "lst"  was declared but never referenced
+  	uint32_t lst = 0, cu;
+../Src/main.c(146): warning:  #177-D: variable "cu"  was declared but never referenced
+  	uint32_t lst = 0, cu;
+../Src/main.c(433): warning:  #177-D: variable "str1"  was declared but never referenced
+  			char str1[40]={0};
+../Src/main.c(462): warning:  #188-D: enumerated type mixed with another type
+  			 SSD1306_Puts("ACCELERATION g/sec", &Font_7x10, 1);
+../Src/main.c(465): warning:  #188-D: enumerated type mixed with another type
+  			 SSD1306_DrawLine(x1, y1, x2, y2, 1);
+../Src/main.c(466): warning:  #188-D: enumerated type mixed with another type
+  			 SSD1306_DrawRectangle(0, 16, 60, 34, 1);    	// Draw rectangle
+../Src/main.c(468): warning:  #188-D: enumerated type mixed with another type
+  			 SSD1306_DrawCircle(x1,y1, r, 1);
+../Src/main.c(470): warning:  #188-D: enumerated type mixed with another type
+  			 SSD1306_DrawCircle(x1,y1, r, 1);
+../Src/main.c(472): warning:  #188-D: enumerated type mixed with another type
+  			 SSD1306_DrawCircle(x1,y1, r, 1);
+../Src/main.c(474): warning:  #188-D: enumerated type mixed with another type
+  			 SSD1306_DrawCircle(x1,y1, r, 1);
+../Src/main.c(476): warning:  #188-D: enumerated type mixed with another type
+  			 SSD1306_DrawCircle(x1,y1, r, 1);
+../Src/main.c(487): warning:  #188-D: enumerated type mixed with another type
+  				SSD1306_DrawFilledCircle(x1,y1, r, 1);
+../Src/main.c(490): warning:  #188-D: enumerated type mixed with another type
+  				SSD1306_DrawFilledCircle(x1,y1, r, 0);
+../Src/main.c(492): warning:  #188-D: enumerated type mixed with another type
+  				SSD1306_DrawFilledCircle(x1,y1, r, 0);
+../Src/main.c(494): warning:  #188-D: enumerated type mixed with another type
+  				SSD1306_DrawFilledCircle(x1,y1, r, 0);
+../Src/main.c(496): warning:  #188-D: enumerated type mixed with another type
+  				SSD1306_DrawFilledCircle(x1,y1, r, 0);
+../Src/main.c(506): warning:  #188-D: enumerated type mixed with another type
+  				SSD1306_DrawFilledCircle(x1,y1, r, 1);
+../Src/main.c(509): warning:  #188-D: enumerated type mixed with another type
+  				SSD1306_DrawFilledCircle(x1,y1, r, 0);
+../Src/main.c(511): warning:  #188-D: enumerated type mixed with another type
+  				SSD1306_DrawFilledCircle(x1,y1, r, 0);
+../Src/main.c(513): warning:  #188-D: enumerated type mixed with another type
+  				SSD1306_DrawFilledCircle(x1,y1, r, 0);
+../Src/main.c(515): warning:  #188-D: enumerated type mixed with another type
+  				SSD1306_DrawFilledCircle(x1,y1, r, 0);
+../Src/main.c(525): warning:  #188-D: enumerated type mixed with another type
+  				SSD1306_DrawFilledCircle(x1,y1, r, 1);
+../Src/main.c(528): warning:  #188-D: enumerated type mixed with another type
+  				SSD1306_DrawFilledCircle(x1,y1, r, 0);
+../Src/main.c(530): warning:  #188-D: enumerated type mixed with another type
+  				SSD1306_DrawFilledCircle(x1,y1, r, 0);
+../Src/main.c(532): warning:  #188-D: enumerated type mixed with another type
+  				SSD1306_DrawFilledCircle(x1,y1, r, 0);
+../Src/main.c(534): warning:  #188-D: enumerated type mixed with another type
+  				SSD1306_DrawFilledCircle(x1,y1, r, 0);
+../Src/main.c(544): warning:  #188-D: enumerated type mixed with another type
+  				SSD1306_DrawFilledCircle(x1,y1, r, 1);
+../Src/main.c(547): warning:  #188-D: enumerated type mixed with another type
+  				SSD1306_DrawFilledCircle(x1,y1, r, 0);
+../Src/main.c(549): warning:  #188-D: enumerated type mixed with another type
+  				SSD1306_DrawFilledCircle(x1,y1, r, 0);
+../Src/main.c(551): warning:  #188-D: enumerated type mixed with another type
+  				SSD1306_DrawFilledCircle(x1,y1, r, 0);
+../Src/main.c(553): warning:  #188-D: enumerated type mixed with another type
+  				SSD1306_DrawFilledCircle(x1,y1, r, 0);
+../Src/main.c(563): warning:  #188-D: enumerated type mixed with another type
+  				SSD1306_DrawFilledCircle(x1,y1, r, 1);
+../Src/main.c(566): warning:  #188-D: enumerated type mixed with another type
+  				SSD1306_DrawFilledCircle(x1,y1, r, 0);
+../Src/main.c(568): warning:  #188-D: enumerated type mixed with another type
+  				SSD1306_DrawFilledCircle(x1,y1, r, 0);
+../Src/main.c(570): warning:  #188-D: enumerated type mixed with another type
+  				SSD1306_DrawFilledCircle(x1,y1, r, 0);
+../Src/main.c(572): warning:  #188-D: enumerated type mixed with another type
+  				SSD1306_DrawFilledCircle(x1,y1, r, 0);
+../Src/main.c: 45 warnings, 0 errors
+linking...
+Program Size: Code=17420 RO-data=10564 RW-data=72 ZI-data=2840  
+"ssd1306\ssd1306.axf" - 0 Error(s), 45 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -50,7 +144,7 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.0.2
-Build Time Elapsed:  00:00:00
+Build Time Elapsed:  00:00:03
 </pre>
 </body>
 </html>
