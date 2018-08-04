@@ -1,6 +1,6 @@
 [PreviousGenFiles]
-HeaderPath=D:/STM32_totarials/MODULES/ROBOT/111111111/4/hands/STM32f103/Inc
-SourcePath=D:/STM32_totarials/MODULES/ROBOT/111111111/4/hands/STM32f103/Src
+HeaderPath=D:/My  Project/IN PROCESS/Hand_Robot/Hand_Control/Inc
+SourcePath=D:/My  Project/IN PROCESS/Hand_Robot/Hand_Control/Src
 SourceFiles=stm32f1xx_it.h;stm32f1xx_hal_conf.h;mxconstants.h;stm32f1xx_it.c;stm32f1xx_hal_msp.c;main.c;gpio.h;i2c.h;usart.h;gpio.c;i2c.c;usart.c;;main.h;
 HeaderFiles=stm32f1xx_it.h;stm32f1xx_hal_conf.h;;gpio.h;i2c.h;usart.h;main.h;
 
