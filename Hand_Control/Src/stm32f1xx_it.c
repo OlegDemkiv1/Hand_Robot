@@ -36,10 +36,14 @@
 #include "stm32f1xx_it.h"
 
 /* USER CODE BEGIN 0 */
-
+extern UART_HandleTypeDef huart2;
+extern float X;
+extern float Y;
+extern float Z;
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
+extern TIM_HandleTypeDef htim3;
 extern UART_HandleTypeDef huart1;
 
 /******************************************************************************/
@@ -93,6 +97,32 @@ void SysTick_Handler(void)
 /* For the available peripheral interrupt handler names,                      */
 /* please refer to the startup file (startup_stm32f1xx.s).                    */
 /******************************************************************************/
+
+/**
+* @brief This function handles TIM3 global interrupt.
+*/
+void TIM3_IRQHandler(void)
+{
+  /* USER CODE BEGIN TIM3_IRQn 0 */
+
+  /* USER CODE END TIM3_IRQn 0 */
+  HAL_TIM_IRQHandler(&htim3);
+  /* USER CODE BEGIN TIM3_IRQn 1 */
+	HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);							// Tongle LED
+	
+	// Transmit data in COMport
+	uint16_t size=0;
+	char buf2[40]={0};
+	size=sizeof(buf2);
+	sprintf(buf2, "X:%.3f Y:%.3f Z:%.3f \r\n",X ,Y, Z);
+	HAL_UART_Transmit(&huart2, (uint8_t*) buf2, size, 0xFF);					// Transmit data in COMPORT
+	//
+	
+	// Transmit data in bluetooth module
+	HAL_UART_Transmit(&huart1, (uint8_t*) buf2, size, 0xFF);					// Transmit data in COMPORT
+  //
+  /* USER CODE END TIM3_IRQn 1 */
+}
 
 /**
 * @brief This function handles USART1 global interrupt.

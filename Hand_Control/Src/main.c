@@ -39,6 +39,7 @@
 #include "main.h"
 #include "stm32f1xx_hal.h"
 #include "i2c.h"
+#include "tim.h"
 #include "usart.h"
 #include "gpio.h"
 
@@ -121,11 +122,14 @@ int main(void)
   MX_USART1_UART_Init();
   MX_USART2_UART_Init();
   MX_USART3_UART_Init();
+  MX_TIM3_Init();
 
   /* USER CODE BEGIN 2 */
 	
-	
-init_ADXL345();    		// Init  accselerometr
+	HAL_TIM_Base_Start(&htim3);    		 //Start Timer1
+	HAL_TIM_Base_Start_IT(&htim3);
+
+  init_ADXL345();    		// Init  accselerometr
 
 	// Test OLED 
 	uint8_t res = SSD1306_Init();	
@@ -151,13 +155,6 @@ init_ADXL345();    		// Init  accselerometr
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
-		
-		///  TRANSMIT ASSELerometr data
-//				 uint8_t transmit_test_data=0;
-//				 transmit_test_data=54;
-//				 HAL_UART_Transmit(&huart1, &transmit_test_data,1, 2);		  // Receive data from bluetooth
-//		     HAL_Delay(1000);
-				 //
 
 		   char buf2[20]={0};
 		   sprintf(buf2, "Connect and send 1");
@@ -184,10 +181,7 @@ init_ADXL345();    		// Init  accselerometr
 
 			 while(STATE)
 			 {
-				 
 					 uint8_t size=0;
-
-				 
 					 // Print acceleration on OLED
 					 data_from_ADXL345(); 			// tesr read accel
 					 
@@ -205,17 +199,15 @@ init_ADXL345();    		// Init  accselerometr
 					 SSD1306_UpdateScreen();
 					 uint8_t transmit_test_data=0;
 					 
-					 // Transmit data in comport
-					 //uint8_t str_1[9]="OK _2\r\n";
-					 char buf2[40]={0};
-					 size=sizeof(buf2);
-					 sprintf(buf2, "X:%.3f Y:%.3f Z:%.3f \r\n",X ,Y, Z);
-					 HAL_UART_Transmit(&huart2, (uint8_t*) buf2, size, 0xFF);					// Transmit data in COMPORT
-					 //
+					 
+					 
+					  
+					 
 	 
-					 // Transmit data in bluetooth module
-					 HAL_UART_Transmit(&huart1, (uint8_t*) buf2, size, 0xFF);					// Transmit data in COMPORT
-					 //
+//					 // Transmit data in bluetooth module
+//					 // Do it in interrupt
+//					 HAL_UART_Transmit(&huart1, (uint8_t*) buf2, size, 0xFF);					// Transmit data in COMPORT
+//					 //
 					 
 					 // Drow circle and send data in 407
 					 if(((X>=-0.2)&(X<=0.2))&(Y>=-0.2)&(Y<=0.2))			// Cheack  data from acceleration  mudule.
@@ -572,6 +564,8 @@ void RIGHT(void)
 		
 				SSD1306_UpdateScreen();
 }
+
+
 
 
 

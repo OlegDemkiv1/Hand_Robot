@@ -6,6 +6,7 @@
 "ssd1306\usart.o"
 "ssd1306\i2c.o"
 "ssd1306\printf.o"
+"ssd1306\tim.o"
 "ssd1306\startup_stm32f103xb.o"
 "ssd1306\stm32f1xx_hal_cortex.o"
 "ssd1306\stm32f1xx_hal_flash_ex.o"
