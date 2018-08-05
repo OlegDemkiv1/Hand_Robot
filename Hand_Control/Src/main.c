@@ -115,7 +115,6 @@ int main(void)
   /* USER CODE BEGIN SysInit */
 
   /* USER CODE END SysInit */
-
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_I2C1_Init();
@@ -123,68 +122,33 @@ int main(void)
   MX_USART2_UART_Init();
   MX_USART3_UART_Init();
   MX_TIM3_Init();
-
   /* USER CODE BEGIN 2 */
-	
 	HAL_TIM_Base_Start(&htim3);    		 //Start Timer1
 	HAL_TIM_Base_Start_IT(&htim3);
+  init_ADXL345();    									// Init  accselerometr
 
-  init_ADXL345();    		// Init  accselerometr
-
-	// Test OLED 
-	uint8_t res = SSD1306_Init();	
-	char str8[10]={10}; 						// Variable for status OLED  
-	if(res==1)
-	{
-			  sprintf(str8,"OK");  
-	}
-	else
-	{
-				sprintf(str8,"ERROR!!!!");
-	}
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 	uint32_t lst = 0, cu;
-	SSD1306_Fill(0);			//Erice  OLED
-	SSD1306_UpdateScreen();
 	
   while (1)
   {
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
-
-		   char buf2[20]={0};
-		   sprintf(buf2, "Connect and send 1");
-			 SSD1306_GotoXY(0,0);
-			 SSD1306_Puts(buf2, &Font_7x10, 1);
-		   SSD1306_UpdateScreen();	
-			 int x2=0, y2=16;
-			 
-			 for(x2=0;x2<128;x2++)								// Running line
-			 {
-								x2=x2+4;
-					      SSD1306_DrawLine(0, y2, x2, y2, 1);
-								SSD1306_UpdateScreen();	
-				        if(x2>=127)
-								{
-										SSD1306_DrawLine(0, y2, x2, y2, 0);
-								    SSD1306_UpdateScreen();
-								}
-			 }
-			 
 			 uint8_t receive_data=0;
-			 uint8_t STATE=1;
-			 init_oled();  //Draw lise and words
+			 init_oled();                       //Draw lise and words on OLED
 
-			 while(STATE)
+			 while(1)
 			 {
 					 uint8_t size=0;
 					 // Print acceleration on OLED
 					 data_from_ADXL345(); 			// tesr read accel
+				 
 					 
+				   // Print data acseleration on OLED
 					 char buf1[8]={0};
 					 sprintf(buf1, "X:%.3f",X);
 					 SSD1306_GotoXY(3,18);
@@ -195,22 +159,15 @@ int main(void)
 					 sprintf(buf1, "Z:%.3f",Z);
 					 SSD1306_GotoXY(3,40);
 					 SSD1306_Puts(buf1, &Font_7x10, 1);
-					 
 					 SSD1306_UpdateScreen();
+					 //
+					 
 					 uint8_t transmit_test_data=0;
-					 
-					 
 					 
 					  
 					 
-	 
-//					 // Transmit data in bluetooth module
-//					 // Do it in interrupt
-//					 HAL_UART_Transmit(&huart1, (uint8_t*) buf2, size, 0xFF);					// Transmit data in COMPORT
-//					 //
-					 
 					 // Drow circle and send data in 407
-					 if(((X>=-0.2)&(X<=0.2))&(Y>=-0.2)&(Y<=0.2))			// Cheack  data from acceleration  mudule.
+					 if(((X>=-0.2)&(X<=0.2))&((Y>=-0.2)&(Y<=0.2))&((Z>=0.8)&(Z<=1.2)))			// Cheack  data from acceleration  mudule.
 					 {
 								STOP();						// STOP function drow circle on OLED
 								// Send action in 407		
@@ -245,9 +202,6 @@ int main(void)
 								transmit_test_data='4';			// '4' - stop command
 								HAL_UART_Transmit(&huart1, &transmit_test_data,1, 2);		  // Receive data from bluetooth
 					 }
-								
-
-
 			 }		
   }
   /* USER CODE END 3 */
@@ -447,8 +401,36 @@ void data_from_ADXL345(void)
 }
 void init_oled(void)
 {				
+			 // Test OLED 
+			 uint8_t res = SSD1306_Init();	
+			 char str8[10]={10}; 						// Variable for status OLED  
+			 if(res==1)
+			 {
+						sprintf(str8,"OK");  
+			 }
+			 else
+			 {
+						sprintf(str8,"ERROR!!!!");
+			 }
+	     //
+			 SSD1306_Fill(0);			//Erice  OLED
+			 // Running line
+			 int x2=0, y2=16;
+			 for(x2=0;x2<128;x2++)								
+			 {
+						x2=x2+4;
+						SSD1306_DrawLine(0, y2, x2, y2, 1);
+						SSD1306_UpdateScreen();	
+						if(x2>=127)
+						{
+								SSD1306_DrawLine(0, y2, x2, y2, 0);
+								SSD1306_UpdateScreen();
+						}
+			 }
+			 // Draw main figures in OLED
 	     uint16_t  r=0;
-			 int x1=0, y1=0, x2=0,y2=0; 								  // Print  text on OLED
+			 int x1=0, y1=0;
+			 x2=0,y2=0; 								  								// Print  text on OLED
 			 SSD1306_GotoXY(x1,y1);
 			 SSD1306_Puts("ACCELERATION g/sec", &Font_7x10, 1);
 		
@@ -465,8 +447,8 @@ void init_oled(void)
 			 SSD1306_DrawCircle(x1,y1, r, 1);
 			 x1=95,y1=54, r=6;  													// Draw circle  // Right
 			 SSD1306_DrawCircle(x1,y1, r, 1);
-	
 			 SSD1306_UpdateScreen(); 
+			 //
 }
 
 void STOP(void)
@@ -515,7 +497,7 @@ void BACK(void)
 				x1=74,y1=38; r=7;
 				SSD1306_DrawFilledCircle(x1,y1, r, 1);
 				// Off  all another circle
-				x1=95,y1=38; r=7;
+				x1=116,y1=38; r=7;
 				SSD1306_DrawFilledCircle(x1,y1, r, 0);
 				x1=95,y1=38; r=7;
 				SSD1306_DrawFilledCircle(x1,y1, r, 0);

@@ -41,7 +41,7 @@
   /* Includes ------------------------------------------------------------------*/
 
 /* USER CODE BEGIN Includes */
-
+extern void data_from_ADXL345(void); 			// tesr read accel
 /* USER CODE END Includes */
 
 /* Private define ------------------------------------------------------------*/

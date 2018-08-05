@@ -45,6 +45,8 @@ extern float Z;
 /* External variables --------------------------------------------------------*/
 extern TIM_HandleTypeDef htim3;
 extern UART_HandleTypeDef huart1;
+//extern I2C1_HandleTypeDef hi2c1;
+//MX_I2C1_Init();
 
 /******************************************************************************/
 /*            Cortex-M3 Processor Interruption and Exception Handlers         */ 
@@ -109,6 +111,8 @@ void TIM3_IRQHandler(void)
   HAL_TIM_IRQHandler(&htim3);
   /* USER CODE BEGIN TIM3_IRQn 1 */
 	HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);							// Tongle LED
+	
+	//data_from_ADXL345(); 
 	
 	// Transmit data in COMport
 	uint16_t size=0;
