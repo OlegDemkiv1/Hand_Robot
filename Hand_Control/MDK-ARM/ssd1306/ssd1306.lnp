@@ -26,6 +26,6 @@
 "ssd1306\fonts.o"
 "ssd1306\ssd1306.o"
 --library_type=microlib --strict --scatter "ssd1306\ssd1306.sct"
---diag_suppress=L6329 --summary_stderr --info summarysizes --map --xref --callgraph --symbols
+--diag_suppress=L6329 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
 --list "ssd1306.map" -o ssd1306\ssd1306.axf

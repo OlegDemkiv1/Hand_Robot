@@ -36,17 +36,12 @@
 #include "stm32f1xx_it.h"
 
 /* USER CODE BEGIN 0 */
-extern UART_HandleTypeDef huart2;
-extern float X;
-extern float Y;
-extern float Z;
+#include "main.h"
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
 extern TIM_HandleTypeDef htim3;
 extern UART_HandleTypeDef huart1;
-//extern I2C1_HandleTypeDef hi2c1;
-//MX_I2C1_Init();
 
 /******************************************************************************/
 /*            Cortex-M3 Processor Interruption and Exception Handlers         */ 
@@ -110,21 +105,11 @@ void TIM3_IRQHandler(void)
   /* USER CODE END TIM3_IRQn 0 */
   HAL_TIM_IRQHandler(&htim3);
   /* USER CODE BEGIN TIM3_IRQn 1 */
+	
 	HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);							// Tongle LED
 	
-	//data_from_ADXL345(); 
-	
-	// Transmit data in COMport
-	uint16_t size=0;
-	char buf2[40]={0};
-	size=sizeof(buf2);
-	sprintf(buf2, "X:%.3f Y:%.3f Z:%.3f \r\n",X ,Y, Z);
-	HAL_UART_Transmit(&huart2, (uint8_t*) buf2, size, 0xFF);					// Transmit data in COMPORT
-	//
-	
-	// Transmit data in bluetooth module
-	HAL_UART_Transmit(&huart1, (uint8_t*) buf2, size, 0xFF);					// Transmit data in COMPORT
-  //
+	data_from_ADXL345(); 
+
   /* USER CODE END TIM3_IRQn 1 */
 }
 
