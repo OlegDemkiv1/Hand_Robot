@@ -158,9 +158,16 @@ int main(void)
 					 HAL_UART_Transmit(&huart2, (uint8_t*) buf2, size, 0xFF);					// Transmit data in COMPORT
 					 //
 						
-					 // Transmit data in bluetooth module
+					 // Transmit data in bluetooth module // To Phone
 					 HAL_UART_Transmit(&huart1, (uint8_t*) buf2, size, 0xFF);					// Transmit data in COMPORT
-				 
+					 //
+					 
+//					 // Test transmit in HC-05
+//					 char test_transmit[10]={0};	
+//					 sprintf(test_transmit,"Test/n/r");
+//					 size=sizeof(test_transmit);
+//				   HAL_UART_Transmit(&huart1, (uint8_t*) &test_transmit, size, 0xFF);					// Transmit data in COMPORT 
+//					 //
 					 
 					 HAL_TIM_Base_Stop(&htim3);
 				   // Print data acseleration on OLED
@@ -183,36 +190,36 @@ int main(void)
 					 {
 								STOP();						// STOP function drow circle on OLED
 								// Send action in 407		
-								transmit_test_data='0';			// '0' - stop command
-								HAL_UART_Transmit(&huart1, &transmit_test_data,1, 2);		  // Receive data from bluetooth
+								//transmit_test_data='0';			// '0' - stop command
+								//HAL_UART_Transmit(&huart1, &transmit_test_data,1, 2);		  // Receive data from bluetooth
 					 }
 					 else if(X<-0.2)
 					 {
 								FORWARD();				// FORVARD function drow circle on OLED
 								// Send action in 407		
-								transmit_test_data='1';			// '1' - stop command
-								HAL_UART_Transmit(&huart1, &transmit_test_data,1, 2);		  // Receive data from bluetooth
+								//transmit_test_data='1';			// '1' - stop command
+								//HAL_UART_Transmit(&huart1, &transmit_test_data,1, 2);		  // Receive data from bluetooth
 					 }
 					 else if(X>0.2)
 					 {
 								BACK();  					// BACK function drow circle on OLED
 								// Send action in 407		
-								transmit_test_data='2';			// '2' - stop command
-								HAL_UART_Transmit(&huart1, &transmit_test_data,1, 2);		  // Receive data from bluetooth
+								//transmit_test_data='2';			// '2' - stop command
+								//HAL_UART_Transmit(&huart1, &transmit_test_data,1, 2);		  // Receive data from bluetooth
 					 }	
 					 else if(Y<-0.2)
 					 {			
 								LEFT();           // LEFT function drow circle on OLED
 								// Send action in 407		
-								transmit_test_data='3';			// '3' - stop command
-								HAL_UART_Transmit(&huart1, &transmit_test_data,1, 2);		  // Receive data from bluetooth
+								//transmit_test_data='3';			// '3' - stop command
+								//HAL_UART_Transmit(&huart1, &transmit_test_data,1, 2);		  // Receive data from bluetooth
 					 }
 					 else if(Y>0.2)
 					 { 
 								RIGHT();	        // RIGHT function drow circle on OLED
 								// Send action in 407		
-								transmit_test_data='4';			// '4' - stop command
-								HAL_UART_Transmit(&huart1, &transmit_test_data,1, 2);		  // Receive data from bluetooth
+								//transmit_test_data='4';			// '4' - stop command
+								//HAL_UART_Transmit(&huart1, &transmit_test_data,1, 2);		  // Receive data from bluetooth
 					 }
 					  HAL_TIM_Base_Start(&htim3);
 			 }		
