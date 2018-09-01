@@ -123,10 +123,10 @@ int main(void)
   MX_USART3_UART_Init();
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
+	
+  init_ADXL345();    									// Init  accselerometr
 	HAL_TIM_Base_Start(&htim3);    		 //Start Timer1
 	HAL_TIM_Base_Start_IT(&htim3);
-  init_ADXL345();    									// Init  accselerometr
-
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -143,11 +143,23 @@ int main(void)
 
 			 while(1)
 			 {
-					 uint8_t size=0;
 					 // Print acceleration on OLED
-					 data_from_ADXL345(); 			// tesr read accel
+					 //data_from_ADXL345(); 			// tesr read accel
+				  
 				 
+				   // Transmit data in COMport
+					uint16_t size=0;
+					char buf2[40]={0};
+					size=sizeof(buf2);
+					sprintf(buf2, "X:%.3f Y:%.3f Z:%.3f \r\n",X ,Y, Z);
+					HAL_UART_Transmit(&huart2, (uint8_t*) buf2, size, 0xFF);					// Transmit data in COMPORT
+					//
+	
+					// Transmit data in bluetooth module
+					HAL_UART_Transmit(&huart1, (uint8_t*) buf2, size, 0xFF);					// Transmit data in COMPORT
+					//
 					 
+					 HAL_TIM_Base_Stop(&htim3);
 				   // Print data acseleration on OLED
 					 char buf1[8]={0};
 					 sprintf(buf1, "X:%.3f",X);
@@ -202,6 +214,8 @@ int main(void)
 								transmit_test_data='4';			// '4' - stop command
 								HAL_UART_Transmit(&huart1, &transmit_test_data,1, 2);		  // Receive data from bluetooth
 					 }
+					 HAL_TIM_Base_Start(&htim3);
+					 
 			 }		
   }
   /* USER CODE END 3 */
