@@ -31,95 +31,95 @@ compiling stm32f1xx_hal_msp.c...
 compiling main.c...
 ../Inc/ssd1306.h(238): warning:  #1295-D: Deprecated declaration ssd1306_I2C_Init - give arg types
   void ssd1306_I2C_Init();
-../Src/main.c(169): warning:  #188-D: enumerated type mixed with another type
-                                        SSD1306_Puts(buf1, &Font_7x10, 1);
-../Src/main.c(172): warning:  #188-D: enumerated type mixed with another type
-                                        SSD1306_Puts(buf1, &Font_7x10, 1);
-../Src/main.c(175): warning:  #188-D: enumerated type mixed with another type
-                                        SSD1306_Puts(buf1, &Font_7x10, 1);
-../Src/main.c(147): warning:  #177-D: variable "receive_data"  was declared but never referenced
+../Src/main.c(158): warning:  #177-D: variable "receive_data"  was declared but never referenced
                          uint8_t receive_data=0;
-../Src/main.c(139): warning:  #177-D: variable "lst"  was declared but never referenced
+../Src/main.c(150): warning:  #177-D: variable "lst"  was declared but never referenced
         uint32_t lst = 0, cu;
-../Src/main.c(139): warning:  #177-D: variable "cu"  was declared but never referenced
+../Src/main.c(150): warning:  #177-D: variable "cu"  was declared but never referenced
         uint32_t lst = 0, cu;
-../Src/main.c(140): warning:  #177-D: variable "transmit_test_data"  was declared but never referenced
+../Src/main.c(151): warning:  #177-D: variable "transmit_test_data"  was declared but never referenced
         uint8_t transmit_test_data=0;
-../Src/main.c(398): warning:  #177-D: variable "str1"  was declared but never referenced
+../Src/main.c(345): warning:  #177-D: variable "str1"  was declared but never referenced
                         char str1[40]={0};
-../Src/main.c(402): warning:  #177-D: variable "timeout_1"  was declared but never referenced
+../Src/main.c(349): warning:  #177-D: variable "timeout_1"  was declared but never referenced
                         uint32_t timeout_1=1000;
-../Src/main.c(446): warning:  #188-D: enumerated type mixed with another type
+../Src/main.c(385): warning:  #188-D: enumerated type mixed with another type
+                        SSD1306_Puts(buf1, &Font_7x10, 1);
+../Src/main.c(388): warning:  #188-D: enumerated type mixed with another type
+                        SSD1306_Puts(buf1, &Font_7x10, 1);
+../Src/main.c(391): warning:  #188-D: enumerated type mixed with another type
+                        SSD1306_Puts(buf1, &Font_7x10, 1);
+../Src/main.c(459): warning:  #188-D: enumerated type mixed with another type
                          SSD1306_Fill(0);                       //Erice  OLED
-../Src/main.c(452): warning:  #188-D: enumerated type mixed with another type
-                                                SSD1306_DrawLine(0, y2, x2, y2, 1);
-../Src/main.c(456): warning:  #188-D: enumerated type mixed with another type
-                                                                SSD1306_DrawLine(0, y2, x2, y2, 0);
 ../Src/main.c(465): warning:  #188-D: enumerated type mixed with another type
-                         SSD1306_Puts("ACCELERATION g/sec", &Font_7x10, 1);
-../Src/main.c(468): warning:  #188-D: enumerated type mixed with another type
-                         SSD1306_DrawLine(x1, y1, x2, y2, 1);
+                                                SSD1306_DrawLine(0, y2, x2, y2, 1);
 ../Src/main.c(469): warning:  #188-D: enumerated type mixed with another type
+                                                                SSD1306_DrawLine(0, y2, x2, y2, 0);
+../Src/main.c(478): warning:  #188-D: enumerated type mixed with another type
+                         SSD1306_Puts("ACCELERATION g/sec", &Font_7x10, 1);
+../Src/main.c(481): warning:  #188-D: enumerated type mixed with another type
+                         SSD1306_DrawLine(x1, y1, x2, y2, 1);
+../Src/main.c(482): warning:  #188-D: enumerated type mixed with another type
                          SSD1306_DrawRectangle(0, 16, 60, 34, 1);       // Draw rectangle
-../Src/main.c(471): warning:  #188-D: enumerated type mixed with another type
+../Src/main.c(484): warning:  #188-D: enumerated type mixed with another type
                          SSD1306_DrawCircle(x1,y1, r, 1);
-../Src/main.c(473): warning:  #188-D: enumerated type mixed with another type
+../Src/main.c(486): warning:  #188-D: enumerated type mixed with another type
                          SSD1306_DrawCircle(x1,y1, r, 1);
-../Src/main.c(475): warning:  #188-D: enumerated type mixed with another type
+../Src/main.c(488): warning:  #188-D: enumerated type mixed with another type
                          SSD1306_DrawCircle(x1,y1, r, 1);
-../Src/main.c(477): warning:  #188-D: enumerated type mixed with another type
+../Src/main.c(490): warning:  #188-D: enumerated type mixed with another type
                          SSD1306_DrawCircle(x1,y1, r, 1);
-../Src/main.c(479): warning:  #188-D: enumerated type mixed with another type
+../Src/main.c(492): warning:  #188-D: enumerated type mixed with another type
                          SSD1306_DrawCircle(x1,y1, r, 1);
-../Src/main.c(491): warning:  #188-D: enumerated type mixed with another type
+../Src/main.c(506): warning:  #188-D: enumerated type mixed with another type
                                 SSD1306_DrawFilledCircle(x1,y1, r, 1);
-../Src/main.c(494): warning:  #188-D: enumerated type mixed with another type
-                                SSD1306_DrawFilledCircle(x1,y1, r, 0);
-../Src/main.c(496): warning:  #188-D: enumerated type mixed with another type
-                                SSD1306_DrawFilledCircle(x1,y1, r, 0);
-../Src/main.c(498): warning:  #188-D: enumerated type mixed with another type
-                                SSD1306_DrawFilledCircle(x1,y1, r, 0);
-../Src/main.c(500): warning:  #188-D: enumerated type mixed with another type
+../Src/main.c(509): warning:  #188-D: enumerated type mixed with another type
                                 SSD1306_DrawFilledCircle(x1,y1, r, 0);
 ../Src/main.c(511): warning:  #188-D: enumerated type mixed with another type
+                                SSD1306_DrawFilledCircle(x1,y1, r, 0);
+../Src/main.c(513): warning:  #188-D: enumerated type mixed with another type
+                                SSD1306_DrawFilledCircle(x1,y1, r, 0);
+../Src/main.c(515): warning:  #188-D: enumerated type mixed with another type
+                                SSD1306_DrawFilledCircle(x1,y1, r, 0);
+../Src/main.c(526): warning:  #188-D: enumerated type mixed with another type
                                 SSD1306_DrawFilledCircle(x1,y1, r, 1);
-../Src/main.c(514): warning:  #188-D: enumerated type mixed with another type
-                                SSD1306_DrawFilledCircle(x1,y1, r, 0);
-../Src/main.c(516): warning:  #188-D: enumerated type mixed with another type
-                                SSD1306_DrawFilledCircle(x1,y1, r, 0);
-../Src/main.c(518): warning:  #188-D: enumerated type mixed with another type
-                                SSD1306_DrawFilledCircle(x1,y1, r, 0);
-../Src/main.c(520): warning:  #188-D: enumerated type mixed with another type
+../Src/main.c(529): warning:  #188-D: enumerated type mixed with another type
                                 SSD1306_DrawFilledCircle(x1,y1, r, 0);
 ../Src/main.c(531): warning:  #188-D: enumerated type mixed with another type
+                                SSD1306_DrawFilledCircle(x1,y1, r, 0);
+../Src/main.c(533): warning:  #188-D: enumerated type mixed with another type
+                                SSD1306_DrawFilledCircle(x1,y1, r, 0);
+../Src/main.c(535): warning:  #188-D: enumerated type mixed with another type
+                                SSD1306_DrawFilledCircle(x1,y1, r, 0);
+../Src/main.c(546): warning:  #188-D: enumerated type mixed with another type
                                 SSD1306_DrawFilledCircle(x1,y1, r, 1);
-../Src/main.c(534): warning:  #188-D: enumerated type mixed with another type
-                                SSD1306_DrawFilledCircle(x1,y1, r, 0);
-../Src/main.c(536): warning:  #188-D: enumerated type mixed with another type
-                                SSD1306_DrawFilledCircle(x1,y1, r, 0);
-../Src/main.c(538): warning:  #188-D: enumerated type mixed with another type
-                                SSD1306_DrawFilledCircle(x1,y1, r, 0);
-../Src/main.c(540): warning:  #188-D: enumerated type mixed with another type
+../Src/main.c(549): warning:  #188-D: enumerated type mixed with another type
                                 SSD1306_DrawFilledCircle(x1,y1, r, 0);
 ../Src/main.c(551): warning:  #188-D: enumerated type mixed with another type
+                                SSD1306_DrawFilledCircle(x1,y1, r, 0);
+../Src/main.c(553): warning:  #188-D: enumerated type mixed with another type
+                                SSD1306_DrawFilledCircle(x1,y1, r, 0);
+../Src/main.c(555): warning:  #188-D: enumerated type mixed with another type
+                                SSD1306_DrawFilledCircle(x1,y1, r, 0);
+../Src/main.c(566): warning:  #188-D: enumerated type mixed with another type
                                 SSD1306_DrawFilledCircle(x1,y1, r, 1);
-../Src/main.c(554): warning:  #188-D: enumerated type mixed with another type
-                                SSD1306_DrawFilledCircle(x1,y1, r, 0);
-../Src/main.c(556): warning:  #188-D: enumerated type mixed with another type
-                                SSD1306_DrawFilledCircle(x1,y1, r, 0);
-../Src/main.c(558): warning:  #188-D: enumerated type mixed with another type
-                                SSD1306_DrawFilledCircle(x1,y1, r, 0);
-../Src/main.c(560): warning:  #188-D: enumerated type mixed with another type
+../Src/main.c(569): warning:  #188-D: enumerated type mixed with another type
                                 SSD1306_DrawFilledCircle(x1,y1, r, 0);
 ../Src/main.c(571): warning:  #188-D: enumerated type mixed with another type
+                                SSD1306_DrawFilledCircle(x1,y1, r, 0);
+../Src/main.c(573): warning:  #188-D: enumerated type mixed with another type
+                                SSD1306_DrawFilledCircle(x1,y1, r, 0);
+../Src/main.c(575): warning:  #188-D: enumerated type mixed with another type
+                                SSD1306_DrawFilledCircle(x1,y1, r, 0);
+../Src/main.c(586): warning:  #188-D: enumerated type mixed with another type
                                 SSD1306_DrawFilledCircle(x1,y1, r, 1);
-../Src/main.c(574): warning:  #188-D: enumerated type mixed with another type
+../Src/main.c(589): warning:  #188-D: enumerated type mixed with another type
                                 SSD1306_DrawFilledCircle(x1,y1, r, 0);
-../Src/main.c(576): warning:  #188-D: enumerated type mixed with another type
+../Src/main.c(591): warning:  #188-D: enumerated type mixed with another type
                                 SSD1306_DrawFilledCircle(x1,y1, r, 0);
-../Src/main.c(578): warning:  #188-D: enumerated type mixed with another type
+../Src/main.c(593): warning:  #188-D: enumerated type mixed with another type
                                 SSD1306_DrawFilledCircle(x1,y1, r, 0);
-../Src/main.c(580): warning:  #188-D: enumerated type mixed with another type
+../Src/main.c(595): warning:  #188-D: enumerated type mixed with another type
                                 SSD1306_DrawFilledCircle(x1,y1, r, 0);
 ../Src/main.c: 46 warnings, 0 errors
 compiling stm32f1xx_it.c...
@@ -150,7 +150,7 @@ compiling ssd1306.c...
   void ssd1306_I2C_Init();
 ..\Src\ssd1306.c: 1 warning, 0 errors
 linking...
-Program Size: Code=19868 RO-data=10564 RW-data=72 ZI-data=2904  
+Program Size: Code=19668 RO-data=2500 RW-data=76 ZI-data=2900  
 "ssd1306\ssd1306.axf" - 0 Error(s), 47 Warning(s).
 
 <h2>Software Packages used:</h2>
@@ -169,7 +169,7 @@ Package Vendor: ARM
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.1.1
-Build Time Elapsed:  00:01:22
+Build Time Elapsed:  00:01:06
 </pre>
 </body>
 </html>

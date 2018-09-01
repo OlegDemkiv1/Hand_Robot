@@ -48,6 +48,7 @@
 
 /* USER CODE BEGIN Private defines */
 void data_from_ADXL345(void);
+void convert_data_accel_ggiro(void);
 
 /* USER CODE END Private defines */
 

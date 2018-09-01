@@ -43,6 +43,7 @@
 extern TIM_HandleTypeDef htim3;
 extern UART_HandleTypeDef huart1;
 
+
 /******************************************************************************/
 /*            Cortex-M3 Processor Interruption and Exception Handlers         */ 
 /******************************************************************************/
@@ -107,8 +108,8 @@ void TIM3_IRQHandler(void)
   /* USER CODE BEGIN TIM3_IRQn 1 */
 	HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);							// Tongle LED
 	
-	data_from_ADXL345(); 
-	
+	data_from_ADXL345(); 																// Read data from sensor
+	convert_data_accel_ggiro();													// Convert data from accelerometr in angles
 	HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);							// Tongle LED
 	
   /* USER CODE END TIM3_IRQn 1 */

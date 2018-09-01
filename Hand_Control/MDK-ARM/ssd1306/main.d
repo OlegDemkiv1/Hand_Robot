@@ -35,3 +35,4 @@ ssd1306\main.o: ../Inc/fonts.h
 ssd1306\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 ssd1306\main.o: ../Inc/ssd1306.h
 ssd1306\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+ssd1306\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
