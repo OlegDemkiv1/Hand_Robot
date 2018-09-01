@@ -52,9 +52,9 @@
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
+//  // Registers accselerometr.
 uint8_t Device_ID=0xE5;
 uint8_t Device_addres=0x53;
-// Registers
 uint8_t DEVID=0x00;
 uint8_t DATAX0=0x32;
 uint8_t DATAX1=0x33;
@@ -62,7 +62,6 @@ uint8_t DATAY0=0x34;
 uint8_t DATAY1=0x35;
 uint8_t DATAZ0=0x36;
 uint8_t DATAZ1=0x37;
-
 uint8_t BW_RATE=0x2C;								//Data rate and power mode control 
 uint8_t POWER_CTL=0x2D; 						//Power-saving features control 		
 uint8_t DATA_FORMAT=0x31;						//Data format control
@@ -83,7 +82,7 @@ void SystemClock_Config(void);
 /* USER CODE BEGIN 0 */
 void I2C_scaner(void);
 void init_ADXL345(void);
-void data_from_ADXL345(void);
+//void data_from_ADXL345(void);
 void init_oled(void);
 
 void STOP(void);
@@ -115,23 +114,30 @@ int main(void)
   /* USER CODE BEGIN SysInit */
 
   /* USER CODE END SysInit */
+
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_I2C1_Init();
   MX_USART1_UART_Init();
   MX_USART2_UART_Init();
   MX_USART3_UART_Init();
-  MX_TIM3_Init();
+  
+
   /* USER CODE BEGIN 2 */
 	
-  init_ADXL345();    									// Init  accselerometr
-	HAL_TIM_Base_Start(&htim3);    		 //Start Timer1
+  init_ADXL345();    									   // Init  accselerometr
+	init_oled();                           // Init OLED and draw lise and words on OLED
+	MX_TIM3_Init();												 // Init Timer
+	HAL_TIM_Base_Start(&htim3);    		     // Start Timer1
 	HAL_TIM_Base_Start_IT(&htim3);
+		 
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 	uint32_t lst = 0, cu;
+	uint8_t transmit_test_data=0;
 	
   while (1)
   {
@@ -139,15 +145,11 @@ int main(void)
 
   /* USER CODE BEGIN 3 */
 			 uint8_t receive_data=0;
-			 init_oled();                       //Draw lise and words on OLED
 
 			 while(1)
 			 {
-					 // Print acceleration on OLED
-					 //data_from_ADXL345(); 			// tesr read accel
-				  
-				 
-				   // Transmit data in COMport
+			 
+				  // Transmit data in COMport
 					uint16_t size=0;
 					char buf2[40]={0};
 					size=sizeof(buf2);
@@ -158,62 +160,59 @@ int main(void)
 					// Transmit data in bluetooth module
 					HAL_UART_Transmit(&huart1, (uint8_t*) buf2, size, 0xFF);					// Transmit data in COMPORT
 					//
-					 
-					 HAL_TIM_Base_Stop(&htim3);
-				   // Print data acseleration on OLED
-					 char buf1[8]={0};
-					 sprintf(buf1, "X:%.3f",X);
-					 SSD1306_GotoXY(3,18);
-					 SSD1306_Puts(buf1, &Font_7x10, 1);
-					 sprintf(buf1, "Y:%.3f",Y);
-					 SSD1306_GotoXY(3,30);
-					 SSD1306_Puts(buf1, &Font_7x10, 1);
-					 sprintf(buf1, "Z:%.3f",Z);
-					 SSD1306_GotoXY(3,40);
-					 SSD1306_Puts(buf1, &Font_7x10, 1);
-					 SSD1306_UpdateScreen();
-					 //
-					 
-					 uint8_t transmit_test_data=0;
-					 
-					  
+
+					HAL_TIM_Base_Stop(&htim3);									// Stop work timmer
+					// Print data acseleration on OLED
+					char buf1[8]={0};
+					sprintf(buf1, "X:%.3f",X);
+					SSD1306_GotoXY(3,18);
+					SSD1306_Puts(buf1, &Font_7x10, 1);
+					sprintf(buf1, "Y:%.3f",Y);
+					SSD1306_GotoXY(3,30);
+					SSD1306_Puts(buf1, &Font_7x10, 1);
+					sprintf(buf1, "Z:%.3f",Z);
+					SSD1306_GotoXY(3,40);
+					SSD1306_Puts(buf1, &Font_7x10, 1);
+					SSD1306_UpdateScreen();
+					//
 					 
 					 // Drow circle and send data in 407
 					 if(((X>=-0.2)&(X<=0.2))&((Y>=-0.2)&(Y<=0.2))&((Z>=0.8)&(Z<=1.2)))			// Cheack  data from acceleration  mudule.
 					 {
 								STOP();						// STOP function drow circle on OLED
 								// Send action in 407		
-								transmit_test_data='0';			// '0' - stop command
-								HAL_UART_Transmit(&huart1, &transmit_test_data,1, 2);		  // Receive data from bluetooth
+								//transmit_test_data='0';			// '0' - stop command
+								//HAL_UART_Transmit(&huart1, &transmit_test_data,1, 2);		  // Receive data from bluetooth
 					 }
 					 else if(X<-0.2)
 					 {
 								FORWARD();				// FORVARD function drow circle on OLED
 								// Send action in 407		
-								transmit_test_data='1';			// '1' - stop command
-								HAL_UART_Transmit(&huart1, &transmit_test_data,1, 2);		  // Receive data from bluetooth
+								//transmit_test_data='1';			// '1' - stop command
+								//HAL_UART_Transmit(&huart1, &transmit_test_data,1, 2);		  // Receive data from bluetooth
 					 }
 					 else if(X>0.2)
 					 {
 								BACK();  					// BACK function drow circle on OLED
 								// Send action in 407		
-								transmit_test_data='2';			// '2' - stop command
-								HAL_UART_Transmit(&huart1, &transmit_test_data,1, 2);		  // Receive data from bluetooth
+								//transmit_test_data='2';			// '2' - stop command
+								//HAL_UART_Transmit(&huart1, &transmit_test_data,1, 2);		  // Receive data from bluetooth
 					 }	
 					 else if(Y<-0.2)
 					 {			
 								LEFT();           // LEFT function drow circle on OLED
 								// Send action in 407		
-								transmit_test_data='3';			// '3' - stop command
-								HAL_UART_Transmit(&huart1, &transmit_test_data,1, 2);		  // Receive data from bluetooth
+								//transmit_test_data='3';			// '3' - stop command
+								//HAL_UART_Transmit(&huart1, &transmit_test_data,1, 2);		  // Receive data from bluetooth
 					 }
 					 else if(Y>0.2)
 					 { 
 								RIGHT();	        // RIGHT function drow circle on OLED
 								// Send action in 407		
-								transmit_test_data='4';			// '4' - stop command
-								HAL_UART_Transmit(&huart1, &transmit_test_data,1, 2);		  // Receive data from bluetooth
+								//transmit_test_data='4';			// '4' - stop command
+								//HAL_UART_Transmit(&huart1, &transmit_test_data,1, 2);		  // Receive data from bluetooth
 					 }
+
 					 HAL_TIM_Base_Start(&htim3);
 					 
 			 }		
@@ -271,6 +270,7 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+///////////////////////////////////////////////////////////////////////////////////////////////
 void I2C_scaner(void)
 {
 	
@@ -332,7 +332,7 @@ void I2C_scaner(void)
 	HAL_UART_Transmit(&huart2 , (uint8_t *)str3, size, 0xFFFF);	
 }
 
-
+///////////////////////////////////////////////////////////////////////////////////////////////
 void init_ADXL345(void)
 {
 		// Device ID	
@@ -382,30 +382,45 @@ void init_ADXL345(void)
 		uint8_t size_1=0;
 		size_1=sizeof(str6);
 		HAL_UART_Transmit(&huart2 , (uint8_t *)str6, size_1, 0xFFFF);     // send  new  line  in  com  port
-		HAL_Delay(2000);
+		//HAL_Delay(2000);
 		//
 }	
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////
 void data_from_ADXL345(void)
 {
-			// Read data X  register
+	
+	    int16_t X_acc_value=0;
+	    int16_t Y_acc_value=0;
+			int16_t Z_acc_value=0;
+	    uint16_t status=0;
 			char str1[40]={0};
 			uint8_t sizebuf=1;
 			uint8_t sizebuf_data=6;
 			uint8_t buffer_XYZ[6]={0};
 			uint32_t timeout_1=1000;
-			HAL_I2C_Mem_Read(&hi2c1, (uint16_t)Device_addres<<1,(uint16_t)DATAX0, (uint16_t) sizebuf, buffer_XYZ, (uint16_t) sizebuf_data,(uint32_t) timeout_1);
-			int16_t X_value=(uint16_t)buffer_XYZ[0]<<8|buffer_XYZ[1];
-			int16_t Y_value=(uint16_t)buffer_XYZ[2]<<8|buffer_XYZ[3];
-			int16_t Z_value=(uint16_t)buffer_XYZ[4]<<8|buffer_XYZ[5];
-			//
 			
+			// Read accekeration fron ADXL345
+			status=HAL_I2C_Mem_Read(&hi2c1, (uint16_t)Device_addres<<1,(uint16_t)DATAX0, (uint16_t) sizebuf, buffer_XYZ, (uint16_t) sizebuf_data,(uint32_t) 0xff);
+			if(status!=HAL_OK)  
+			{
+				// Error handler
+				while(1){}
+			}
+			else
+			{
+				X_acc_value=(uint16_t)buffer_XYZ[0]<<8|buffer_XYZ[1];
+				Y_acc_value=(uint16_t)buffer_XYZ[2]<<8|buffer_XYZ[3];
+				Z_acc_value=(uint16_t)buffer_XYZ[4]<<8|buffer_XYZ[5];
+			}
+			//
 			// Convert data in G/s
-			X=(float)X_value/8192.0;
-			Y=(float)Y_value/8192.0;
-			Z=(float)Z_value/8192.0;
+			X=(float)X_acc_value/8192.0;
+			Y=(float)Y_acc_value/8192.0;
+			Z=(float)Z_acc_value/8192.0;
 			//
-			
+
 //			// Print data
 //			sprintf(str1,"X:%.2f  Y:%.2f  Z:%.2f \r\n",X, Y, Z);                		  					// convert   in  str 
 //			uint8_t size=sizeof(str1);
@@ -413,6 +428,7 @@ void data_from_ADXL345(void)
 			
 			//			
 }
+///////////////////////////////////////////////////////////////////////////////////////////////
 void init_oled(void)
 {				
 			 // Test OLED 
@@ -465,6 +481,7 @@ void init_oled(void)
 			 //
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
 void STOP(void)
 {
 				uint16_t  r=0;
@@ -485,6 +502,7 @@ void STOP(void)
 				SSD1306_UpdateScreen();
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
 void FORWARD(void)
 {
 				uint16_t  r=0;
@@ -504,6 +522,7 @@ void FORWARD(void)
 				SSD1306_UpdateScreen();
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
 void BACK(void)
 {
         uint16_t  r=0;
@@ -523,6 +542,7 @@ void BACK(void)
 				SSD1306_UpdateScreen();
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
 void LEFT(void)
 {
 				uint16_t  r=0;
@@ -542,6 +562,7 @@ void LEFT(void)
 				SSD1306_UpdateScreen();
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
 void RIGHT(void)
 { 
 				uint16_t  r=0;

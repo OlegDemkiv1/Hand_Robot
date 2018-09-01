@@ -47,6 +47,7 @@
 /* Private define ------------------------------------------------------------*/
 
 /* USER CODE BEGIN Private defines */
+void data_from_ADXL345(void);
 
 /* USER CODE END Private defines */
 
