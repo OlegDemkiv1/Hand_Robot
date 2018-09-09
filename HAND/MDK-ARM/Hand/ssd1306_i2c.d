@@ -1,0 +1,10 @@
+hand\ssd1306_i2c.o: ..\ssd1306\ssd1306_i2c.c
+hand\ssd1306_i2c.o: ..\ssd1306\ssd1306_i2c.h
+hand\ssd1306_i2c.o: C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include\stm32f10x.h
+hand\ssd1306_i2c.o: .\RTE\_Hand\RTE_Components.h
+hand\ssd1306_i2c.o: ../Drivers/CMSIS/Include/core_cm3.h
+hand\ssd1306_i2c.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+hand\ssd1306_i2c.o: ../Drivers/CMSIS/Include/core_cmInstr.h
+hand\ssd1306_i2c.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
+hand\ssd1306_i2c.o: ../Drivers/CMSIS/Include/core_cmFunc.h
+hand\ssd1306_i2c.o: C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include\system_stm32f10x.h

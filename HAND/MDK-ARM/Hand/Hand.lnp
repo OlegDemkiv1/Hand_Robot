@@ -1,0 +1,26 @@
+--cpu Cortex-M3
+"hand\startup_stm32f103xb.o"
+"hand\fonts.o"
+"hand\ssd1306.o"
+"hand\main.o"
+"hand\stm32f1xx_it.o"
+"hand\stm32f1xx_hal_msp.o"
+"hand\stm32f1xx_hal_gpio_ex.o"
+"hand\stm32f1xx_hal_i2c.o"
+"hand\stm32f1xx_hal_tim.o"
+"hand\stm32f1xx_hal_tim_ex.o"
+"hand\stm32f1xx_hal_uart.o"
+"hand\stm32f1xx_hal.o"
+"hand\stm32f1xx_hal_rcc.o"
+"hand\stm32f1xx_hal_rcc_ex.o"
+"hand\stm32f1xx_hal_gpio.o"
+"hand\stm32f1xx_hal_dma.o"
+"hand\stm32f1xx_hal_cortex.o"
+"hand\stm32f1xx_hal_pwr.o"
+"hand\stm32f1xx_hal_flash.o"
+"hand\stm32f1xx_hal_flash_ex.o"
+"hand\system_stm32f1xx.o"
+--library_type=microlib --strict --scatter "Hand\Hand.sct"
+--summary_stderr --info summarysizes --map --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list "Hand.map" -o Hand\Hand.axf
