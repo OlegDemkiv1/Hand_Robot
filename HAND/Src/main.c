@@ -89,9 +89,15 @@ static void MX_I2C1_Init(void);
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
+
 void I2C_scaner(void);
 void init_ADXL345(void);
-
+void init_oled(void);
+void STOP(void);
+void FORWARD(void);
+void BACK(void);
+void LEFT(void); 
+void RIGHT(void);
 
 /* USER CODE END 0 */
 
@@ -132,7 +138,7 @@ int main(void)
   MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
   init_ADXL345();    									   // Init  accselerometr
-	//init_oled();                           // Init OLED and draw lise and words on OLED
+	init_oled();                           // Init OLED and draw lise and words on OLED
 	
 	
 	//I2C_scaner();
@@ -140,20 +146,8 @@ int main(void)
 	
 	uint32_t lst = 0, cu;
 	uint8_t transmit_test_data=0;
+
 	
-	//// OLED
-	uint8_t check=0;
-	check=SSD1306_Init();
-	
-	SSD1306_Fill(0);  
-	SSD1306_UpdateScreen();
-	
-	SSD1306_GotoXY(10,20);
-	SSD1306_Puts("0987654321", &Font_7x10, 1);
-	
-	SSD1306_UpdateScreen();
-	
-	HAL_Delay(1000);
 	
 	
 	MX_TIM3_Init();												 // Init Timer
@@ -185,51 +179,51 @@ uint8_t receive_data=0;
 
 					HAL_TIM_Base_Stop(&htim3);									// Stop work timmer
 					// Print data acseleration on OLED
-//					char buf1[8]={0};
-//					sprintf(buf1, "X:%.3f",X);
-//					SSD1306_GotoXY(3,18);
-//					SSD1306_Puts(buf1, &Font_7x10, 1);
-//					sprintf(buf1, "Y:%.3f",Y);
-//					SSD1306_GotoXY(3,30);
-//					SSD1306_Puts(buf1, &Font_7x10, 1);
-//					sprintf(buf1, "Z:%.3f",Z);
-//					SSD1306_GotoXY(3,40);
-//					SSD1306_Puts(buf1, &Font_7x10, 1);
-//					SSD1306_UpdateScreen();
+					char buf1[8]={0};
+					sprintf(buf1, "X:%.3f",X);
+					SSD1306_GotoXY(3,18);
+					SSD1306_Puts(buf1, &Font_7x10, 1);
+					sprintf(buf1, "Y:%.3f",Y);
+					SSD1306_GotoXY(3,30);
+					SSD1306_Puts(buf1, &Font_7x10, 1);
+					sprintf(buf1, "Z:%.3f",Z);
+					SSD1306_GotoXY(3,40);
+					SSD1306_Puts(buf1, &Font_7x10, 1);
+					SSD1306_UpdateScreen();
 					//
 					 
 					 // Drow circle and send data in 407
 					 if(((X>=-0.2)&(X<=0.2))&((Y>=-0.2)&(Y<=0.2))&((Z>=0.8)&(Z<=1.2)))			// Cheack  data from acceleration  mudule.
 					 {
-//								STOP();						// STOP function drow circle on OLED
+								STOP();						// STOP function drow circle on OLED
 								// Send action in 407		
 								//transmit_test_data='0';			// '0' - stop command
 								//HAL_UART_Transmit(&huart1, &transmit_test_data,1, 2);		  // Receive data from bluetooth
 					 }
 					 else if(X<-0.2)
 					 {
-//								FORWARD();				// FORVARD function drow circle on OLED
+								FORWARD();				// FORVARD function drow circle on OLED
 								// Send action in 407		
 								//transmit_test_data='1';			// '1' - stop command
 								//HAL_UART_Transmit(&huart1, &transmit_test_data,1, 2);		  // Receive data from bluetooth
 					 }
 					 else if(X>0.2)
 					 {
-//								BACK();  					// BACK function drow circle on OLED
+								BACK();  					// BACK function drow circle on OLED
 								// Send action in 407		
 								//transmit_test_data='2';			// '2' - stop command
 								//HAL_UART_Transmit(&huart1, &transmit_test_data,1, 2);		  // Receive data from bluetooth
 					 }	
 					 else if(Y<-0.2)
 					 {			
-//								LEFT();           // LEFT function drow circle on OLED
+								LEFT();           // LEFT function drow circle on OLED
 								// Send action in 407		
 								//transmit_test_data='3';			// '3' - stop command
 								//HAL_UART_Transmit(&huart1, &transmit_test_data,1, 2);		  // Receive data from bluetooth
 					 }
 					 else if(Y>0.2)
 					 { 
-//								RIGHT();	        // RIGHT function drow circle on OLED
+								RIGHT();	        // RIGHT function drow circle on OLED
 								// Send action in 407		
 								//transmit_test_data='4';			// '4' - stop command
 								//HAL_UART_Transmit(&huart1, &transmit_test_data,1, 2);		  // Receive data from bluetooth
@@ -584,158 +578,158 @@ void data_from_ADXL345(void)
 			//			
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////
-//void init_oled(void)
-//{				
-//			 // Test OLED 
-//			 uint8_t res = SSD1306_Init();	
-//			 char str8[10]={10}; 						// Variable for status OLED  
-//			 if(res==1)
-//			 {
-//						sprintf(str8,"OK");  
-//			 }
-//			 else
-//			 {
-//						sprintf(str8,"ERROR!!!!");
-//			 }
-//	     //
-//			 SSD1306_Fill(0);			//Erice  OLED
-//			 // Running line
-//			 int x2=0, y2=16;
-//			 for(x2=0;x2<128;x2++)								
-//			 {
-//						x2=x2+4;
-//						SSD1306_DrawLine(0, y2, x2, y2, 1);
-//						SSD1306_UpdateScreen();	
-//						if(x2>=127)
-//						{
-//								SSD1306_DrawLine(0, y2, x2, y2, 0);
-//								SSD1306_UpdateScreen();
-//						}
-//			 }
-//			 // Draw main figures in OLED
-//	     uint16_t  r=0;
-//			 int x1=0, y1=0;
-//			 x2=0,y2=0; 								  								// Print  text on OLED
-//			 SSD1306_GotoXY(x1,y1);
-//			 SSD1306_Puts("ACCELERATION g/sec", &Font_7x10, 1);
-//		
-//			 x1=0,y1=10,x2=130,y2=10;   									// Draw line
-//			 SSD1306_DrawLine(x1, y1, x2, y2, 1);
-//			 SSD1306_DrawRectangle(0, 16, 60, 34, 1);    	// Draw rectangle
-//			 x1=74,y1=38,	r=8;   													// Draw circle  back
-//			 SSD1306_DrawCircle(x1,y1, r, 1);
-//			 x1=95,y1=38, r=8;  													// Draw circle  // ser
-//			 SSD1306_DrawCircle(x1,y1, r, 1);
-//			 x1=116,y1=38,r=8;														// Draw circle  // First
-//			 SSD1306_DrawCircle(x1,y1, r, 1);
-//			 x1=95,y1=22, r=6;  													// Draw circle  // Left
-//			 SSD1306_DrawCircle(x1,y1, r, 1);
-//			 x1=95,y1=54, r=6;  													// Draw circle  // Right
-//			 SSD1306_DrawCircle(x1,y1, r, 1);
-//			 SSD1306_UpdateScreen(); 
-//			 //
-//}
+void init_oled(void)
+{				
+			 // Test OLED 
+			 uint8_t res = SSD1306_Init();	
+			 char str8[10]={10}; 						// Variable for status OLED  
+			 if(res==1)
+			 {
+						sprintf(str8,"OK");  
+			 }
+			 else
+			 {
+						sprintf(str8,"ERROR!!!!");
+			 }
+	     //
+			 SSD1306_Fill(0);			//Erice  OLED
+			 // Running line
+			 int x2=0, y2=16;
+			 for(x2=0;x2<128;x2++)								
+			 {
+						x2=x2+4;
+						SSD1306_DrawLine(0, y2, x2, y2, 1);
+						SSD1306_UpdateScreen();	
+						if(x2>=127)
+						{
+								SSD1306_DrawLine(0, y2, x2, y2, 0);
+								SSD1306_UpdateScreen();
+						}
+			 }
+			 // Draw main figures in OLED
+	     uint16_t  r=0;
+			 int x1=0, y1=0;
+			 x2=0,y2=0; 								  								// Print  text on OLED
+			 SSD1306_GotoXY(x1,y1);
+			 SSD1306_Puts("ACCELERATION g/sec", &Font_7x10, 1);
+		
+			 x1=0,y1=10,x2=130,y2=10;   									// Draw line
+			 SSD1306_DrawLine(x1, y1, x2, y2, 1);
+			 SSD1306_DrawRectangle(0, 16, 60, 34, 1);    	// Draw rectangle
+			 x1=74,y1=38,	r=8;   													// Draw circle  back
+			 SSD1306_DrawCircle(x1,y1, r, 1);
+			 x1=95,y1=38, r=8;  													// Draw circle  // ser
+			 SSD1306_DrawCircle(x1,y1, r, 1);
+			 x1=116,y1=38,r=8;														// Draw circle  // First
+			 SSD1306_DrawCircle(x1,y1, r, 1);
+			 x1=95,y1=22, r=6;  													// Draw circle  // Left
+			 SSD1306_DrawCircle(x1,y1, r, 1);
+			 x1=95,y1=54, r=6;  													// Draw circle  // Right
+			 SSD1306_DrawCircle(x1,y1, r, 1);
+			 SSD1306_UpdateScreen(); 
+			 //
+}
 
-/////////////////////////////////////////////////////////////////////////////////////////////////
-//void STOP(void)
-//{
-//				uint16_t  r=0;
-//			  int x1=0, y1=0;							  
-//				// Draw circle
-//				x1=95,y1=38; r=7;
-//				SSD1306_DrawFilledCircle(x1,y1, r, 1);
-//				// Off  all another circle
-//				x1=116,y1=38;r=7;
-//				SSD1306_DrawFilledCircle(x1,y1, r, 0);
-//				x1=74,y1=38; r=7;
-//				SSD1306_DrawFilledCircle(x1,y1, r, 0);
-//				x1=95,y1=22;  r=5;
-//				SSD1306_DrawFilledCircle(x1,y1, r, 0);
-//				x1=95,y1=54;r=5;
-//				SSD1306_DrawFilledCircle(x1,y1, r, 0);
-//		 
-//				SSD1306_UpdateScreen();
-//}
+///////////////////////////////////////////////////////////////////////////////////////////////
+void STOP(void)
+{
+				uint16_t  r=0;
+			  int x1=0, y1=0;							  
+				// Draw circle
+				x1=95,y1=38; r=7;
+				SSD1306_DrawFilledCircle(x1,y1, r, 1);
+				// Off  all another circle
+				x1=116,y1=38;r=7;
+				SSD1306_DrawFilledCircle(x1,y1, r, 0);
+				x1=74,y1=38; r=7;
+				SSD1306_DrawFilledCircle(x1,y1, r, 0);
+				x1=95,y1=22;  r=5;
+				SSD1306_DrawFilledCircle(x1,y1, r, 0);
+				x1=95,y1=54;r=5;
+				SSD1306_DrawFilledCircle(x1,y1, r, 0);
+		 
+				SSD1306_UpdateScreen();
+}
 
-/////////////////////////////////////////////////////////////////////////////////////////////////
-//void FORWARD(void)
-//{
-//				uint16_t  r=0;
-//			  int x1=0, y1=0;	
-//				x1=116,y1=38;r=7;
-//				SSD1306_DrawFilledCircle(x1,y1, r, 1);
-//				// Off  all another circle
-//				x1=95,y1=38; r=7;
-//				SSD1306_DrawFilledCircle(x1,y1, r, 0);
-//				x1=74,y1=38; r=7;
-//				SSD1306_DrawFilledCircle(x1,y1, r, 0);
-//				x1=95,y1=22;  r=5;
-//				SSD1306_DrawFilledCircle(x1,y1, r, 0);
-//				x1=95,y1=54;r=5;
-//				SSD1306_DrawFilledCircle(x1,y1, r, 0);
-//		 
-//				SSD1306_UpdateScreen();
-//}
+///////////////////////////////////////////////////////////////////////////////////////////////
+void FORWARD(void)
+{
+				uint16_t  r=0;
+			  int x1=0, y1=0;	
+				x1=116,y1=38;r=7;
+				SSD1306_DrawFilledCircle(x1,y1, r, 1);
+				// Off  all another circle
+				x1=95,y1=38; r=7;
+				SSD1306_DrawFilledCircle(x1,y1, r, 0);
+				x1=74,y1=38; r=7;
+				SSD1306_DrawFilledCircle(x1,y1, r, 0);
+				x1=95,y1=22;  r=5;
+				SSD1306_DrawFilledCircle(x1,y1, r, 0);
+				x1=95,y1=54;r=5;
+				SSD1306_DrawFilledCircle(x1,y1, r, 0);
+		 
+				SSD1306_UpdateScreen();
+}
 
-/////////////////////////////////////////////////////////////////////////////////////////////////
-//void BACK(void)
-//{
-//        uint16_t  r=0;
-//			  int x1=0, y1=0;	
-//				x1=74,y1=38; r=7;
-//				SSD1306_DrawFilledCircle(x1,y1, r, 1);
-//				// Off  all another circle
-//				x1=116,y1=38; r=7;
-//				SSD1306_DrawFilledCircle(x1,y1, r, 0);
-//				x1=95,y1=38; r=7;
-//				SSD1306_DrawFilledCircle(x1,y1, r, 0);
-//				x1=95,y1=22;  r=5;
-//				SSD1306_DrawFilledCircle(x1,y1, r, 0);
-//				x1=95,y1=54;r=5;
-//				SSD1306_DrawFilledCircle(x1,y1, r, 0);
-//		 
-//				SSD1306_UpdateScreen();
-//}
+///////////////////////////////////////////////////////////////////////////////////////////////
+void BACK(void)
+{
+        uint16_t  r=0;
+			  int x1=0, y1=0;	
+				x1=74,y1=38; r=7;
+				SSD1306_DrawFilledCircle(x1,y1, r, 1);
+				// Off  all another circle
+				x1=116,y1=38; r=7;
+				SSD1306_DrawFilledCircle(x1,y1, r, 0);
+				x1=95,y1=38; r=7;
+				SSD1306_DrawFilledCircle(x1,y1, r, 0);
+				x1=95,y1=22;  r=5;
+				SSD1306_DrawFilledCircle(x1,y1, r, 0);
+				x1=95,y1=54;r=5;
+				SSD1306_DrawFilledCircle(x1,y1, r, 0);
+		 
+				SSD1306_UpdateScreen();
+}
 
-/////////////////////////////////////////////////////////////////////////////////////////////////
-//void LEFT(void)
-//{
-//				uint16_t  r=0;
-//			  int x1=0, y1=0;	
-//				x1=95,y1=22;  r=5;
-//				SSD1306_DrawFilledCircle(x1,y1, r, 1);
-//				x1=95,y1=38; r=7;
-//				// Off  all another circle
-//				SSD1306_DrawFilledCircle(x1,y1, r, 0);
-//				x1=116,y1=38;r=7;
-//				SSD1306_DrawFilledCircle(x1,y1, r, 0);
-//				x1=74,y1=38; r=7;
-//				SSD1306_DrawFilledCircle(x1,y1, r, 0);
-//				x1=95,y1=54;r=5;
-//				SSD1306_DrawFilledCircle(x1,y1, r, 0);
-//		 
-//				SSD1306_UpdateScreen();
-//}
+///////////////////////////////////////////////////////////////////////////////////////////////
+void LEFT(void)
+{
+				uint16_t  r=0;
+			  int x1=0, y1=0;	
+				x1=95,y1=22;  r=5;
+				SSD1306_DrawFilledCircle(x1,y1, r, 1);
+				x1=95,y1=38; r=7;
+				// Off  all another circle
+				SSD1306_DrawFilledCircle(x1,y1, r, 0);
+				x1=116,y1=38;r=7;
+				SSD1306_DrawFilledCircle(x1,y1, r, 0);
+				x1=74,y1=38; r=7;
+				SSD1306_DrawFilledCircle(x1,y1, r, 0);
+				x1=95,y1=54;r=5;
+				SSD1306_DrawFilledCircle(x1,y1, r, 0);
+		 
+				SSD1306_UpdateScreen();
+}
 
-/////////////////////////////////////////////////////////////////////////////////////////////////
-//void RIGHT(void)
-//{ 
-//				uint16_t  r=0;
-//			  int x1=0, y1=0;	
-//				x1=95,y1=54;r=5;
-//				SSD1306_DrawFilledCircle(x1,y1, r, 1);
-//				// Off  all circle
-//				x1=116,y1=38;r=7;
-//				SSD1306_DrawFilledCircle(x1,y1, r, 0);
-//				x1=95,y1=22;  r=5;
-//				SSD1306_DrawFilledCircle(x1,y1, r, 0);
-//				x1=95,y1=38; r=7;
-//				SSD1306_DrawFilledCircle(x1,y1, r, 0);
-//				x1=74,y1=38; r=7;
-//				SSD1306_DrawFilledCircle(x1,y1, r, 0);
-//		
-//				SSD1306_UpdateScreen();
-//}
+///////////////////////////////////////////////////////////////////////////////////////////////
+void RIGHT(void)
+{ 
+				uint16_t  r=0;
+			  int x1=0, y1=0;	
+				x1=95,y1=54;r=5;
+				SSD1306_DrawFilledCircle(x1,y1, r, 1);
+				// Off  all circle
+				x1=116,y1=38;r=7;
+				SSD1306_DrawFilledCircle(x1,y1, r, 0);
+				x1=95,y1=22;  r=5;
+				SSD1306_DrawFilledCircle(x1,y1, r, 0);
+				x1=95,y1=38; r=7;
+				SSD1306_DrawFilledCircle(x1,y1, r, 0);
+				x1=74,y1=38; r=7;
+				SSD1306_DrawFilledCircle(x1,y1, r, 0);
+		
+				SSD1306_UpdateScreen();
+}
 
 
 

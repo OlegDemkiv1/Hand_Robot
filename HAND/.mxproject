@@ -1,7 +1,7 @@
 [PreviousGenFiles]
-HeaderPath=D:/STM32F407/ROBOT/Hand/2/Inc
+HeaderPath=D:/STM32F407/Hand_Robot/HAND/Inc
 HeaderFiles=stm32f1xx_it.h;stm32f1xx_hal_conf.h;main.h;
-SourcePath=D:/STM32F407/ROBOT/Hand/2/Src
+SourcePath=D:/STM32F407/Hand_Robot/HAND/Src
 SourceFiles=stm32f1xx_it.c;stm32f1xx_hal_msp.c;main.c;
 
 [PreviousLibFiles]
