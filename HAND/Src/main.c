@@ -76,6 +76,12 @@ float Z=0;
 int16_t ACCEL_XANGLE=0;
 int16_t ACCEL_YANGLE=0;
 int16_t ACCEL_ZANGLE=0;
+
+// Bufers for UART
+//int i=0;
+int len;
+char buffer[100];
+char Rx_indx, Rx_data[2],Rx_Buffer[100],Transfer_cplt;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -93,6 +99,29 @@ static void MX_I2C1_Init(void);
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
+
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart2)
+{
+	uint8_t i;
+	if(Rx_indx==0)
+	{
+			for(i=0;i<100;i++)
+			{
+					Rx_Buffer[i]=0;
+			}
+		}
+	if(Rx_data[0]!=13)
+	{
+			Rx_Buffer[Rx_indx++]=Rx_data[0];
+	}
+	else
+	{
+		Rx_indx=0;
+		Transfer_cplt=1;
+	}
+	HAL_UART_Receive_IT(huart2, (uint8_t*)Rx_data,1);
+}
+
 
 void I2C_scaner(void);
 void init_ADXL345(void);
@@ -158,13 +187,41 @@ int main(void)
 	MX_TIM3_Init();												 // Init Timer
 	HAL_TIM_Base_Start(&htim3);    		     // Start Timer1
 	HAL_TIM_Base_Start_IT(&htim3);
-	
+	HAL_UART_Receive_IT(&huart2 ,(uint8_t*) Rx_data,1);    // Start UART
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {		 
+		// Test UART--------------------------------------------------
+		if(Transfer_cplt)   // If string hes Enter/#013 in the end transmiting paket.
+		{
+				  sprintf(buffer, "%s\r\n",Rx_Buffer);
+			    len=strlen(buffer);
+					HAL_UART_Transmit(&huart2, (uint8_t *)buffer, len, 1000);  // Transmit data
+			    Transfer_cplt=0;
+			    
+			    if((uint8_t)Rx_Buffer[0]==0x31)   // '1'
+					{
+						  sprintf(buffer, "1111111\r\n");
+			        len=strlen(buffer);
+					    HAL_UART_Transmit(&huart2, (uint8_t *)buffer, len, 1000);  // Transmit data
+			        Transfer_cplt=0;
+					}
+					if((uint8_t)Rx_Buffer[0]==0x32)    // '2'
+					{
+						  sprintf(buffer, "22222222\r\n");
+			        len=strlen(buffer);
+					    HAL_UART_Transmit(&huart2, (uint8_t *)buffer, len, 1000);  // Transmit data
+			        Transfer_cplt=0;
+					}
+			
+			
+			    HAL_Delay(2000);
+		}
+		//-----------------------------------------------------------
+		      
 				  transmit_data_in_comport();						// Transmit data in COMport
 				  transmit_data_in_BLUETOOTH();					// Transmit data in bluetooth module
 
@@ -173,6 +230,7 @@ int main(void)
 		      drow_data_on_OLED();   											// Print data acseleration on OLED
 		
 					HAL_TIM_Base_Start(&htim3);
+    
 	}		
   
   /* USER CODE END WHILE */
@@ -354,10 +412,23 @@ static void MX_USART3_UART_Init(void)
 static void MX_GPIO_Init(void)
 {
 
+  GPIO_InitTypeDef GPIO_InitStruct;
+
   /* GPIO Ports Clock Enable */
+  __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOD_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin : PC13 */
+  GPIO_InitStruct.Pin = GPIO_PIN_13;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
 }
 
@@ -758,6 +829,9 @@ void convert_accel_data_in_angle(void)
 			ACCEL_YANGLE = 57.295*atan((float)-Y/ sqrt(pow((float)X,2)+pow((float)Z,2)));
 			ACCEL_ZANGLE = 57.295*atan((float)-Z/ sqrt(pow((float)X,2)+pow((float)Y,2)));
 }
+
+
+
 
 
 /* USER CODE END 4 */

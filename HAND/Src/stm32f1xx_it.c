@@ -208,7 +208,7 @@ void TIM3_IRQHandler(void)
 	
 	data_from_ADXL345(); 
 	
-	HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);							// Tongle LED
+	//HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);							// Tongle LED
 	
   /* USER CODE END TIM3_IRQn 1 */
 }
