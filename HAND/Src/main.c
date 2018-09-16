@@ -100,27 +100,6 @@ static void MX_I2C1_Init(void);
 
 /* USER CODE BEGIN 0 */
 
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart2)
-{
-	uint8_t i;
-	if(Rx_indx==0)
-	{
-			for(i=0;i<100;i++)
-			{
-					Rx_Buffer[i]=0;
-			}
-		}
-	if(Rx_data[0]!=13)
-	{
-			Rx_Buffer[Rx_indx++]=Rx_data[0];
-	}
-	else
-	{
-		Rx_indx=0;
-		Transfer_cplt=1;
-	}
-	HAL_UART_Receive_IT(huart2, (uint8_t*)Rx_data,1);
-}
 
 
 void I2C_scaner(void);
@@ -135,7 +114,7 @@ void transmit_data_in_comport(void);
 void transmit_data_in_BLUETOOTH(void);
 void drow_data_on_OLED(void);
 void convert_accel_data_in_angle(void);
-
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart2);
 /* USER CODE END 0 */
 
 /**
@@ -188,6 +167,9 @@ int main(void)
 	HAL_TIM_Base_Start(&htim3);    		     // Start Timer1
 	HAL_TIM_Base_Start_IT(&htim3);
 	HAL_UART_Receive_IT(&huart2 ,(uint8_t*) Rx_data,1);    // Start UART
+//	HAL_Delay(2000);
+//	I2C_scaner();
+	
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -830,6 +812,28 @@ void convert_accel_data_in_angle(void)
 			ACCEL_ZANGLE = 57.295*atan((float)-Z/ sqrt(pow((float)X,2)+pow((float)Y,2)));
 }
 
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart2)  
+{
+	// It finctinon called when in buffer UART has one byte
+	uint8_t i;
+	if(Rx_indx==0)															
+	{
+			for(i=0;i<100;i++)																	// Clar buffer before receiving nev data.
+			{
+					Rx_Buffer[i]=0;
+			}
+		}
+	if(Rx_data[0]!=13)																			// If check if it byte is not "Enter".
+	{
+			Rx_Buffer[Rx_indx++]=Rx_data[0];
+	}
+	else
+	{
+		Rx_indx=0;
+		Transfer_cplt=1;												 							// Buffer complete, data ready to read.
+	}
+	HAL_UART_Receive_IT(huart2, (uint8_t*)Rx_data,1);				
+}
 
 
 
